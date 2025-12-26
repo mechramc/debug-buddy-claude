@@ -1,6 +1,6 @@
 /**
- * Debug Buddy - Styles
- * Professional, clean design for the debugging assistant
+ * Debug Buddy - Styles (Enhanced)
+ * Professional, clean design with support for all error types
  */
 
 /* ============================================
@@ -253,6 +253,13 @@ body.new-error {
   gap: var(--spacing-xs);
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-surface);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.filter-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-tab {
@@ -265,6 +272,8 @@ body.new-error {
   border-radius: var(--border-radius-md);
   cursor: pointer;
   transition: all var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .filter-tab:hover {
@@ -363,17 +372,40 @@ body.new-error {
   border-color: var(--color-text-muted);
 }
 
+/* Error type colors */
 .error-card.error,
-.error-card.exception {
+.error-card.exception,
+.error-card.promise_rejection {
   border-left: 3px solid var(--color-error);
 }
 
-.error-card.warning {
+.error-card.warning,
+.error-card.deprecation {
   border-left: 3px solid var(--color-warning);
 }
 
-.error-card.network_error {
+.error-card.network_error,
+.error-card.network_timeout,
+.error-card.resource_error {
   border-left: 3px solid var(--color-info);
+}
+
+.error-card.network_slow,
+.error-card.performance_longtask,
+.error-card.performance_cls {
+  border-left: 3px solid #f97316;
+}
+
+.error-card.dom_error {
+  border-left: 3px solid #a855f7;
+}
+
+.error-card.csp_violation {
+  border-left: 3px solid #ef4444;
+}
+
+.error-card.intervention {
+  border-left: 3px solid var(--color-warning);
 }
 
 .error-card-header {
@@ -394,14 +426,35 @@ body.new-error {
   color: var(--color-error);
 }
 
-.error-card.warning .error-type-icon {
+.error-card.warning .error-type-icon,
+.error-card.deprecation .error-type-icon,
+.error-card.intervention .error-type-icon {
   background-color: var(--color-warning-bg);
   color: var(--color-warning);
 }
 
-.error-card.network_error .error-type-icon {
+.error-card.network_error .error-type-icon,
+.error-card.network_timeout .error-type-icon,
+.error-card.resource_error .error-type-icon {
   background-color: rgba(59, 130, 246, 0.1);
   color: var(--color-info);
+}
+
+.error-card.network_slow .error-type-icon,
+.error-card.performance_longtask .error-type-icon,
+.error-card.performance_cls .error-type-icon {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+.error-card.dom_error .error-type-icon {
+  background-color: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+}
+
+.error-card.csp_violation .error-type-icon {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
 }
 
 .error-info {
@@ -626,6 +679,41 @@ body.new-error {
   color: var(--color-text-secondary);
   max-height: 150px;
   overflow-y: auto;
+}
+
+/* Metadata grid for network/performance details */
+.metadata-grid {
+  display: grid;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-bg);
+  border-radius: var(--border-radius-md);
+}
+
+.metadata-item {
+  display: flex;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.metadata-label {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.metadata-value {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  word-break: break-all;
+}
+
+.source-info {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-bg);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
 }
 
 /* ============================================
