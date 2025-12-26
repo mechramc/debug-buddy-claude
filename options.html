@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Buddy - Settings</title>
+  <style>
+    :root {
+      --color-bg: #0f0f0f;
+      --color-surface: #1a1a1a;
+      --color-border: #2a2a2a;
+      --color-text: #e5e5e5;
+      --color-text-secondary: #888;
+      --color-primary: #6366f1;
+      --color-primary-hover: #4f46e5;
+      --color-success: #10b981;
+      --color-error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.5;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--color-primary), #818cf8);
+      border-radius: 8px;
+      color: white;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-top: 4px;
+    }
+
+    .hint a {
+      color: var(--color-primary);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+      background-color: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      color: var(--color-text);
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-secondary {
+      background-color: var(--color-border);
+      color: var(--color-text);
+    }
+
+    .btn-secondary:hover {
+      background-color: #333;
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+    }
+
+    .btn-primary.success {
+      background-color: var(--color-success);
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background-color: var(--color-border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.15s ease;
+    }
+
+    .toggle.active {
+      background-color: var(--color-primary);
+    }
+
+    .toggle.active::after {
+      transform: translateX(20px);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .status {
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .status.success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--color-success);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status.error {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--color-error);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .status.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1>Debug Buddy Settings</h1>
+    </div>
+
+    <div id="statusMessage" class="status hidden"></div>
+
+    <div class="card">
+      <h2 class="card-title">API Configuration</h2>
+      
+      <div class="form-group">
+        <label for="apiKey">Anthropic API Key</label>
+        <div class="input-group">
+          <input type="password" id="apiKey" placeholder="sk-ant-api03-...">
+          <button class="btn btn-secondary" id="toggleKey">Show</button>
+        </div>
+        <p class="hint">Get your API key from <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">Domain Whitelist</h2>
+      
+      <div class="form-group">
+        <label for="domains">Monitored Domains</label>
+        <textarea id="domains" placeholder="localhost&#10;127.0.0.1&#10;*.local&#10;staging.*"></textarea>
+        <p class="hint">Enter one domain per line. Use * for wildcards (e.g., *.example.com)</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">General</h2>
+      
+      <div class="form-group">
+        <div class="toggle-group">
+          <div class="toggle active" id="enabledToggle"></div>
+          <label style="margin-bottom: 0;">Enable error monitoring</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="resetBtn">Reset to Defaults</button>
+      <button class="btn btn-primary" id="saveBtn">Save Settings</button>
+    </div>
+  </div>
+
+  <script>
+    const elements = {
+      apiKey: document.getElementById('apiKey'),
+      domains: document.getElementById('domains'),
+      enabledToggle: document.getElementById('enabledToggle'),
+      toggleKey: document.getElementById('toggleKey'),
+      saveBtn: document.getElementById('saveBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      statusMessage: document.getElementById('statusMessage')
+    };
+
+    const defaults = {
+      domains: ['localhost', '127.0.0.1', '*.local', 'staging.*', '*.staging.*'],
+      enabled: true
+    };
+
+    // Load settings
+    async function loadSettings() {
+      const storage = await chrome.storage.sync.get(['apiKey', 'domains', 'enabled']);
+      
+      if (storage.apiKey && storage.apiKey !== 'YOUR_API_KEY_HERE') {
+        elements.apiKey.value = storage.apiKey;
+      }
+      
+      elements.domains.value = (storage.domains || defaults.domains).join('\n');
+      
+      if (storage.enabled !== false) {
+        elements.enabledToggle.classList.add('active');
+      } else {
+        elements.enabledToggle.classList.remove('active');
+      }
+    }
+
+    // Save settings
+    async function saveSettings() {
+      const apiKey = elements.apiKey.value.trim() || 'YOUR_API_KEY_HERE';
+      const domains = elements.domains.value
+        .split('\n')
+        .map(d => d.trim())
+        .filter(d => d.length > 0);
+      const enabled = elements.enabledToggle.classList.contains('active');
+
+      try {
+        await chrome.storage.sync.set({
+          apiKey,
+          domains: domains.length > 0 ? domains : defaults.domains,
+          enabled
+        });
+
+        showStatus('Settings saved successfully!', 'success');
+        elements.saveBtn.textContent = 'Saved!';
+        elements.saveBtn.classList.add('success');
+        
+        setTimeout(() => {
+          elements.saveBtn.textContent = 'Save Settings';
+          elements.saveBtn.classList.remove('success');
+        }, 2000);
+      } catch (error) {
+        showStatus('Failed to save settings: ' + error.message, 'error');
+      }
+    }
+
+    // Reset to defaults
+    async function resetSettings() {
+      if (!confirm('Are you sure you want to reset all settings to defaults?')) {
+        return;
+      }
+
+      elements.apiKey.value = '';
+      elements.domains.value = defaults.domains.join('\n');
+      elements.enabledToggle.classList.add('active');
+
+      await chrome.storage.sync.set({
+        apiKey: 'YOUR_API_KEY_HERE',
+        domains: defaults.domains,
+        enabled: true
+      });
+
+      showStatus('Settings reset to defaults.', 'success');
+    }
+
+    // Show status message
+    function showStatus(message, type) {
+      elements.statusMessage.textContent = message;
+      elements.statusMessage.className = `status ${type}`;
+      
+      setTimeout(() => {
+        elements.statusMessage.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Event listeners
+    elements.toggleKey.addEventListener('click', () => {
+      if (elements.apiKey.type === 'password') {
+        elements.apiKey.type = 'text';
+        elements.toggleKey.textContent = 'Hide';
+      } else {
+        elements.apiKey.type = 'password';
+        elements.toggleKey.textContent = 'Show';
+      }
+    });
+
+    elements.enabledToggle.addEventListener('click', () => {
+      elements.enabledToggle.classList.toggle('active');
+    });
+
+    elements.saveBtn.addEventListener('click', saveSettings);
+    elements.resetBtn.addEventListener('click', resetSettings);
+
+    // Initialize
+    loadSettings();
+  </script>
+</body>
+</html>

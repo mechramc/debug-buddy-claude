@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Buddy</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1 class="title">Debug Buddy</h1>
+      </div>
+      <div class="header-actions">
+        <button id="clearBtn" class="btn btn-ghost" title="Clear all errors">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+          </svg>
+        </button>
+        <button id="settingsBtn" class="btn btn-ghost" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- API Key Warning Banner -->
+    <div id="apiKeyWarning" class="warning-banner hidden">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <span>API key not configured.</span>
+      <a href="#" id="configureApiKey">Configure now</a>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-value" id="errorCount">0</span>
+        <span class="stat-label">Errors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="warningCount">0</span>
+        <span class="stat-label">Warnings</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="analyzedCount">0</span>
+        <span class="stat-label">Analyzed</span>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="error">Errors</button>
+      <button class="filter-tab" data-filter="warning">Warnings</button>
+      <button class="filter-tab" data-filter="network">Network</button>
+    </div>
+
+    <!-- Error List -->
+    <main class="error-list" id="errorList">
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3>No errors detected</h3>
+        <p>Debug Buddy is monitoring this page. Errors will appear here automatically.</p>
+      </div>
+    </main>
+
+    <!-- Error Detail Modal -->
+    <div class="modal hidden" id="errorModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Error Details</h2>
+          <button class="btn btn-ghost modal-close" id="closeModal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- Dynamic content -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Panel (overlay) -->
+    <div class="settings-panel hidden" id="settingsPanel">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="btn btn-ghost" id="closeSettings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="settings-body">
+        <!-- API Key Section -->
+        <div class="settings-section">
+          <label class="settings-label">Anthropic API Key</label>
+          <div class="input-group">
+            <input type="password" id="apiKeyInput" class="input" placeholder="sk-ant-...">
+            <button class="btn btn-secondary" id="toggleApiKey">Show</button>
+          </div>
+          <p class="settings-hint">Get your API key from <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+        </div>
+
+        <!-- Domain Whitelist Section -->
+        <div class="settings-section">
+          <label class="settings-label">Domain Whitelist</label>
+          <p class="settings-hint">Only monitor errors on these domains (one per line). Use * for wildcards.</p>
+          <textarea id="domainsInput" class="textarea" rows="5" placeholder="localhost&#10;127.0.0.1&#10;*.local&#10;staging.*"></textarea>
+        </div>
+
+        <!-- Enable/Disable -->
+        <div class="settings-section">
+          <label class="toggle-label">
+            <input type="checkbox" id="enabledToggle" checked>
+            <span class="toggle-switch"></span>
+            <span>Enable error monitoring</span>
+          </label>
+        </div>
+
+        <!-- Save Button -->
+        <div class="settings-actions">
+          <button class="btn btn-primary" id="saveSettings">Save Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
